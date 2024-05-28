@@ -7195,14 +7195,14 @@ fn parse_create_index() {
         },
     ];
     match verified_stmt(sql) {
-        Statement::CreateIndex {
+        Statement::CreateIndex(CreateIndex {
             name: Some(name),
             table_name,
             columns,
             unique,
             if_not_exists,
             ..
-        } => {
+        }) => {
             assert_eq!("idx_name", name.to_string());
             assert_eq!("test", table_name.to_string());
             assert_eq!(indexed_columns, columns);
@@ -7229,7 +7229,7 @@ fn test_create_index_with_using_function() {
         },
     ];
     match verified_stmt(sql) {
-        Statement::CreateIndex {
+        Statement::CreateIndex(CreateIndex {
             name: Some(name),
             table_name,
             using,
@@ -7240,7 +7240,7 @@ fn test_create_index_with_using_function() {
             include,
             nulls_distinct: None,
             predicate: None,
-        } => {
+        }) => {
             assert_eq!("idx_name", name.to_string());
             assert_eq!("test", table_name.to_string());
             assert_eq!("btree", using.unwrap().to_string());
